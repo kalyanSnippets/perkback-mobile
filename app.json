@@ -4,7 +4,6 @@
     "slug": "perkback-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "backgroundColor": "#0a2a6b"
@@ -26,6 +25,7 @@
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "newArchEnabled": false
   }
 }
