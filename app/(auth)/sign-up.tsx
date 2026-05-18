@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { supabase } from '../../src/lib/supabase';
 import { PB, FONTS } from '../../src/constants/theme';
+import PerkBackLogo from '../../src/components/ui/PerkBackLogo';
 
 export default function SignUpScreen() {
   const router = useRouter();
@@ -82,7 +83,7 @@ export default function SignUpScreen() {
           <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
             <Text style={styles.backArrow}>←</Text>
           </TouchableOpacity>
-          <Text style={styles.logoName}>PerkBack</Text>
+          <PerkBackLogo size="small" />
         </View>
 
         <ScrollView
@@ -93,21 +94,7 @@ export default function SignUpScreen() {
           <Text style={styles.title}>Create your account</Text>
           <Text style={styles.stepSub}>Takes about 30 seconds.</Text>
 
-          {/* OAuth shortcuts */}
-          <TouchableOpacity style={styles.appleBtn} onPress={() => handleOAuth('apple')} activeOpacity={0.85}>
-            <Text style={styles.appleBtnText}> Continue with Apple</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.googleBtn} onPress={() => handleOAuth('google')} activeOpacity={0.85}>
-            <Text style={styles.googleG}>G</Text>
-            <Text style={styles.googleBtnText}>Continue with Google</Text>
-          </TouchableOpacity>
-
-          <View style={styles.divider}>
-            <View style={styles.dividerLine} />
-            <Text style={styles.dividerLabel}>or sign up with email</Text>
-            <View style={styles.dividerLine} />
-          </View>
-
+          {/* Fields */}
           <View style={styles.fields}>
             <View>
               <Text style={styles.label}>Full name</Text>
@@ -177,6 +164,7 @@ export default function SignUpScreen() {
             <Text style={styles.legalLink}>Privacy Policy</Text>.
           </Text>
 
+          {/* Primary CTA */}
           <TouchableOpacity
             style={[styles.submitBtn, loading && { opacity: 0.6 }]}
             onPress={handleSignUp} disabled={loading} activeOpacity={0.85}
@@ -186,12 +174,36 @@ export default function SignUpScreen() {
             </Text>
           </TouchableOpacity>
 
+          {/* OAuth — below primary CTA */}
+          <View style={styles.divider}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.dividerLabel}>or continue with</Text>
+            <View style={styles.dividerLine} />
+          </View>
+
+          <TouchableOpacity style={styles.appleBtn} onPress={() => handleOAuth('apple')} activeOpacity={0.85}>
+            <Text style={styles.appleBtnText}> Continue with Apple</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.googleBtn} onPress={() => handleOAuth('google')} activeOpacity={0.85}>
+            <Text style={styles.googleG}>G</Text>
+            <Text style={styles.googleBtnText}>Continue with Google</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.signInRow}
             onPress={() => router.push('/(auth)/sign-in')}
           >
             <Text style={styles.signInText}>
               Have an account? <Text style={styles.signInLink}>Sign in</Text>
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.merchantRow}
+            onPress={() => router.push('/(auth)/merchant-signup')}
+          >
+            <Text style={styles.merchantText}>
+              Sign up as a merchant <Text style={styles.merchantArrow}>→</Text>
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -212,25 +224,9 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center',
   },
   backArrow: { fontSize: 18, color: PB.fg },
-  logoName: { fontSize: 18, fontFamily: FONTS.extraBold, color: PB.fg, letterSpacing: -0.3 },
   scroll: { paddingHorizontal: 24, paddingBottom: 40 },
   title: { fontSize: 26, fontFamily: FONTS.extraBold, color: PB.fg, letterSpacing: -0.5, marginBottom: 6, marginTop: 8 },
   stepSub: { fontSize: 13, fontFamily: FONTS.regular, color: PB.muted, marginBottom: 20 },
-  appleBtn: {
-    height: 52, borderRadius: 14, backgroundColor: '#0b0d12',
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 10,
-  },
-  appleBtnText: { fontFamily: FONTS.bold, fontSize: 15, color: '#fff' },
-  googleBtn: {
-    height: 52, borderRadius: 14, backgroundColor: '#fff',
-    borderWidth: 1, borderColor: PB.border,
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10,
-  },
-  googleG: { fontSize: 16, fontFamily: FONTS.bold, color: '#4285F4' },
-  googleBtnText: { fontFamily: FONTS.bold, fontSize: 15, color: PB.fg },
-  divider: { flexDirection: 'row', alignItems: 'center', gap: 8, marginVertical: 16 },
-  dividerLine: { flex: 1, height: 1, backgroundColor: PB.border },
-  dividerLabel: { fontSize: 11, fontFamily: FONTS.medium, color: PB.muted },
   fields: { gap: 14, marginBottom: 16 },
   label: { fontSize: 12, fontFamily: FONTS.bold, color: PB.fg, marginLeft: 4, marginBottom: 6 },
   optional: { fontFamily: FONTS.regular, color: PB.muted },
@@ -254,10 +250,29 @@ const styles = StyleSheet.create({
   legalLink: { color: PB.secondary, textDecorationLine: 'underline' },
   submitBtn: {
     height: 52, borderRadius: 14, backgroundColor: PB.primary,
-    alignItems: 'center', justifyContent: 'center', marginBottom: 16,
+    alignItems: 'center', justifyContent: 'center', marginBottom: 20,
   },
   submitBtnText: { fontFamily: FONTS.bold, fontSize: 15, color: '#fff' },
-  signInRow: { alignItems: 'center' },
+  divider: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 14 },
+  dividerLine: { flex: 1, height: 1, backgroundColor: PB.border },
+  dividerLabel: { fontSize: 11, fontFamily: FONTS.medium, color: PB.muted },
+  appleBtn: {
+    height: 52, borderRadius: 14, backgroundColor: '#0b0d12',
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 10,
+  },
+  appleBtnText: { fontFamily: FONTS.bold, fontSize: 15, color: '#fff' },
+  googleBtn: {
+    height: 52, borderRadius: 14, backgroundColor: '#fff',
+    borderWidth: 1, borderColor: PB.border,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10,
+    marginBottom: 20,
+  },
+  googleG: { fontSize: 16, fontFamily: FONTS.bold, color: '#4285F4' },
+  googleBtnText: { fontFamily: FONTS.bold, fontSize: 15, color: PB.fg },
+  signInRow: { alignItems: 'center', marginBottom: 12 },
   signInText: { fontSize: 13, fontFamily: FONTS.regular, color: PB.muted },
   signInLink: { fontFamily: FONTS.bold, color: PB.secondary, textDecorationLine: 'underline' },
+  merchantRow: { alignItems: 'center' },
+  merchantText: { fontSize: 13, fontFamily: FONTS.bold, color: PB.secondary },
+  merchantArrow: { color: PB.accentStrong },
 });
