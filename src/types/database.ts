@@ -44,6 +44,17 @@ export interface Reward {
   merchants?: Merchant;
 }
 
+export interface PointTransaction {
+  id: string;
+  customer_id: string;
+  merchant_id: string | null;
+  amount: number; // positive = earn, negative = redeem/expiry
+  type: 'earn' | 'redeem' | 'bonus' | 'expiry';
+  note: string | null;
+  created_at: string;
+  merchants?: { name: string } | null;
+}
+
 export interface Redemption {
   id: string;
   customer_id: string;
